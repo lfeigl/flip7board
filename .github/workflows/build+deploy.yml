@@ -18,8 +18,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: Build
+  build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,11 +35,6 @@ jobs:
         id: build
         run: bun run build
 
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
