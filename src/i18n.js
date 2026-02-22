@@ -1,0 +1,26 @@
+export default {
+  en: {
+    _name: 'EN 🇬🇧',
+    round: 'Round',
+    enterPlayerName: 'Enter player name...',
+    startGame: 'Start Game 🚀',
+    nextRound: 'Next Round ⏭️',
+    finishGame: 'Finish Round & Game 🏁',
+    newGame: 'New Game 🔃',
+    won: 'won! 🎉',
+    tie: "It's a tie! 🤝",
+    rules: 'Rules 💡',
+  },
+  de: {
+    _name: 'DE 🇩🇪',
+    round: 'Runde',
+    enterPlayerName: 'Spielername eingeben...',
+    startGame: 'Spiel starten 🚀',
+    nextRound: 'Nächste Runde ⏭️',
+    finishGame: 'Runde & Spiel beenden 🏁',
+    newGame: 'Neues Spiel 🔃',
+    won: 'hat gewonnen! 🎉',
+    tie: 'Gleichstand! 🤝',
+    rules: 'Regeln 💡',
+  },
+};

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Flip7Board</title>
+  </head>
+
+  <body x-data="main">
+    <header class="container flip7-flex-wrapper">
+      <h2>Flip<strong class="pico-color-indigo">7</strong>Board</h2>
+      <h2 x-show="isGameInProgress(roundCounter)">
+        <span x-text="x.round"></span>
+        <strong class="pico-color-indigo" x-text="roundCounter"></strong>
+      </h2>
+    </header>
+
+    <main class="container">
+      <section x-show="!isGameInProgress(roundCounter)" x-data="preGame">
+        <div x-data="{ name: '' }">
+          <fieldset role="group">
+            <input
+              aria-label="player name"
+              type="text"
+              :placeholder="x.enterPlayerName"
+              x-model="name"
+              :maxlength="MAX_NAME_LENGTH"
+              :aria-invalid="isInvalidPlayerName(name)"
+              @keydown.enter="if (!isInvalidPlayerAddition(players, name)) { addPlayer(players, name); name = '' }"
+            />
+            <button
+              @click="addPlayer(players, name); name = ''"
+              :disabled="isInvalidPlayerAddition(players, name)"
+            >
+              ➕
+            </button>
+          </fieldset>
+        </div>
+
+        <div class="flip7-grid">
+          <template x-for="[id, player] in Object.entries(players)">
+            <div class="flip7-card-wrapper overflow-auto">
+              <article class="flip7-flex-wrapper flip7-player-name-card">
+                <span x-text="player.name"></span>
+                <button class="secondary" @click="delete players[id]">❌</button>
+              </article>
+            </div>
+          </template>
+        </div>
+        <button
+          class="flip7-button"
+          x-text="x.startGame"
+          @click="roundCounter++"
+          :disabled="isInvalidGameStart(players)"
+        ></button>
+      </section>
+
+      <section x-show="isGameInProgress(roundCounter)" x-data="inGame">
+        <div class="flip7-grid">
+          <template x-for="player in Object.values(players)">
+            <div class="flip7-card-wrapper overflow-auto">
+              <article>
+                <header class="flip7-flex-wrapper">
+                  <h5 x-text="player.name"></h5>
+                  <h3 class="pico-color-indigo" x-text="player.totalScore"></h3>
+                </header>
+                <input
+                  aria-label="player score"
+                  type="number"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  min="0"
+                  :max="MAX_ROUND_SCORE"
+                  step="1"
+                  @input="player.roundScore = validateScoreInput(player.roundScore)"
+                  x-model.number="player.roundScore"
+                  :aria-invalid="isInvalidRoundScore(player.roundScore)"
+                />
+              </article>
+            </div>
+          </template>
+        </div>
+
+        <button
+          class="flip7-button"
+          x-text="x.nextRound"
+          @click="addUpTotalScore(players); roundCounter++"
+          :disabled="isInvalidRoundFinishing(players, roundCounter, false)"
+        ></button>
+        <button
+          class="flip7-button outline"
+          x-text="x.finishGame"
+          @click="addUpTotalScore(players); finishingGame = true"
+          :disabled="isInvalidRoundFinishing(players, roundCounter, true)"
+        ></button>
+
+        <dialog :open="finishingGame">
+          <article>
+            <header>
+              <h5 x-show="isTie(getLeaderBoard(players))" x-text="x.tie"></h5>
+              <h5 x-show="!isTie(getLeaderBoard(players))">
+                <strong x-text="getLeaderBoard(players)[0]?.name"></strong>
+                <span x-text="x.won"></span>
+              </h5>
+            </header>
+
+            <template x-for="(entry, i) in getLeaderBoard(players)">
+              <div>
+                <strong x-text="i + 1"></strong>. <span x-text="entry.name"></span>:
+                <strong class="pico-color-indigo" x-text="entry.totalScore"></strong>
+              </div>
+            </template>
+
+            <footer>
+              <button
+                class="secondary"
+                x-text="x.nextRound"
+                @click="roundCounter++; finishingGame = false"
+                :disabled="isInvalidRoundFinishing(players, roundCounter, false)"
+              ></button>
+              <button
+                x-text="x.newGame"
+                @click="resetScores(players); roundCounter = 0; finishingGame = false"
+              ></button>
+            </footer>
+          </article>
+        </dialog>
+      </section>
+    </main>
+
+    <footer class="container" x-data="meta">
+      <blockquote>
+        <button
+          class="outline secondary"
+          x-text="nextLanguageName"
+          @click="toggleLanguage()"
+        ></button>
+        <a
+          role="button"
+          class="outline secondary"
+          href="/flip7_ruleset.pdf"
+          target="_blank"
+          x-text="x.rules"
+        >
+        </a>
+        <hr />
+        <small>
+          Flip<strong class="pico-color-indigo">7</strong>Board v<strong x-text="version"></strong>
+          — developed by <strong class="pico-color-indigo" x-text="author"></strong> MMXXVI
+          <br />
+          Built with Alpine.js & Pico.css ✨
+        </small>
+        <footer>
+          <cite>
+            <small>
+              Legal Disclaimer: Flip7Board is an unofficial fan-made tool and is not affiliated
+              with, endorsed by, or sponsored by USAopoly, Inc. Flip 7 is a trademark of USAopoly,
+              Inc., Copyright © 2025 by USAopoly, Inc. All Rights Reserved. This app is intended for
+              personal and informational use only to assist players with scorekeeping.
+            </small>
+          </cite>
+        </footer>
+      </blockquote>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

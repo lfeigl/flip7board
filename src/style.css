@@ -1,0 +1,36 @@
+.flip7-flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flip7-button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.flip7-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.flip7-card-wrapper {
+  flex: 0 0 calc(50% - 0.5rem);
+}
+
+.flip7-card-wrapper article {
+  margin-bottom: 0;
+}
+
+.flip7-card-wrapper article header {
+  padding-bottom: 0;
+}
+
+.flip7-card-wrapper article input {
+  margin-bottom: 0;
+}
+
+.flip7-player-name-card {
+  padding: 1rem 1rem;
+}
