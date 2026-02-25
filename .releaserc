@@ -1,0 +1,12 @@
+branches:
+  - main
+
+plugins:
+  - '@semantic-release/commit-analyzer'         # calculate release
+  - '@semantic-release/release-notes-generator' # generate release notes
+  - '@semantic-release/changelog'               # add release notes to CHANGELOG.md
+  - '@semantic-release/npm'                     # update version in package.json
+  - - '@semantic-release/github'                # create GitHub release
+    - assets:
+        - dist
+  - '@semantic-release/git'                     # commit & push CHANGELOG.md + package.json
