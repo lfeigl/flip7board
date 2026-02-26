@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "prepare": "husky",
     "prettier:check": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:fix": "prettier --write .",
+    "qa": "bun run prettier:check"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
