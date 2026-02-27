@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   build-release-deploy:
-    name: Build & Deploy
+    name: Build, Release & Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -41,7 +41,7 @@ jobs:
         run: bun run qa
 
       - name: Build & release
-        run: semantic-release
+        run: bun run build+release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

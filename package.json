@@ -12,7 +12,8 @@
     "prepare": "husky",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "qa": "bun run prettier:check"
+    "qa": "bun run prettier:check",
+    "build+release": "semantic-release"
   },
   "devDependencies": {
     "@semantic-release/exec": "^7.1.0",
