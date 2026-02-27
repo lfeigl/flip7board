@@ -4,7 +4,7 @@ import '@picocss/pico/css/pico.indigo.min.css';
 import '@picocss/pico/css/pico.colors.min.css';
 
 import './style.css';
-import { author, version } from '../package.json';
+import { author } from '../package.json';
 import i18n from './i18n.js';
 import { DEFAULT_LANGUAGE_KEY, MAX_NAME_LENGTH, MAX_ROUND_SCORE } from './constants.js';
 import {
@@ -65,6 +65,8 @@ Alpine.data('inGame', () => ({
   validateScoreInput,
 }));
 
-Alpine.data('meta', () => ({ author, version }));
+Alpine.data('meta', () => ({ author, version: import.meta.env.VITE_APP_VERSION ?? 'dev' }));
+
+if (import.meta.env.DEV) window.Alpine = Alpine;
 
 Alpine.start();
