@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Sets permissions of the GITHUB_TOKEN
+permissions:
+  contents: read
+
+# If pushing a new change to the branch, the old workflow is instantly obsolete
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+        env:
+          HUSKY: 0 # disable Husky
+
+      - name: QA
+        run: bun run qa
+
+      - name: Build
+        run: bun run build

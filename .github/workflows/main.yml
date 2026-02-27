@@ -1,11 +1,11 @@
-name: Build, Release & Deploy
+name: Main
 
 on:
   push:
     branches:
-      - feat/init
+      - main
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets permissions of the GITHUB_TOKEN
 permissions:
   contents: write # required for semantic-release to create tags and releases
   issues: write # required for semantic-release to comment on issues
