@@ -24,6 +24,12 @@ import {
   validateScoreInput,
 } from './functions.js';
 
+let version = 'DEV';
+
+if (import.meta.env.VITE_APP_VERSION) {
+  version = import.meta.env.VITE_APP_VERSION;
+} else if (import.meta.env.PROD) version = 'PREVIEW';
+
 Alpine.plugin(persist);
 
 Alpine.data('main', function () {
@@ -65,7 +71,7 @@ Alpine.data('inGame', () => ({
   validateScoreInput,
 }));
 
-Alpine.data('meta', () => ({ author, version: import.meta.env.VITE_APP_VERSION ?? 'dev' }));
+Alpine.data('meta', () => ({ author, version }));
 
 if (import.meta.env.DEV) window.Alpine = Alpine;
 
