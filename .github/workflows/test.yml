@@ -41,10 +41,14 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Sanitize branch name
+        # Replaces '/' with '-' to avoid filesystem errors
+        run: echo "BRANCH_NAME=$(echo "${{ github.head_ref || github.ref_name }}" | sed 's/\//-/g')" >> $GITHUB_ENV
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v6
         with:
-          name: flip7board-build-${{ github.head_ref || github.ref_name }}
+          name: flip7board-build-${{ env.BRANCH_NAME }}
           path: dist
           if-no-files-found: error
           retention-days: 1
