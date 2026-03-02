@@ -4,6 +4,8 @@ on:
   push:
     branches-ignore:
       - main
+    tags-ignore:
+      - '**'
   pull_request:
     branches:
       - main
@@ -14,7 +16,7 @@ permissions:
 
 # If pushing a new change to the branch, the old workflow is instantly obsolete
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -38,3 +40,12 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: flip7board-build-${{ github.head_ref || github.ref_name }}
+          path: dist
+          if-no-files-found: error
+          retention-days: 1
+          overwrite: true
